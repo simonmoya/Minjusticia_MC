@@ -1,0 +1,184 @@
+﻿<html class="no-js ui-mobile-rendering" lang="es">
+<head>
+    <title>Actualizame</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+/*Definición Variables Globales*/
+var url = "";	
+var url2 = "";	
+var html="";
+var db2;
+var actualiza; 
+/*Fin definición Variables Globales*/
+
+inicializa_feed();
+
+google.load("feeds", "1");
+
+google.setOnLoadCallback(actualiza_informacion_ubicacion);
+google.setOnLoadCallback(actualiza_informacion_programa);
+
+
+function inicializa_feed()
+{
+alert("Entra a inicializa_feed");
+db2 = openDatabase("ejemplo3.db3", "1.0", "Ministerio de Justicia", 500000);
+
+db2.transaction(function(tx2) {
+            	 tx2.executeSql("SELECT valor_parametro FROM parametro where codigo_tparametro = 4", [],
+                 function(tx2, result2)
+				 {
+                  for(var s=0; s < result2.rows.length; s++) 
+				  {
+				   if (s == 0) actualiza = result2.rows.item(s)['valor_parametro'];	
+				   else actualiza += ";"+result2.rows.item(s)['valor_parametro'];	
+				   if (s == (result2.rows.length-1)) 
+				   obtener_url();
+				  }
+				 }); 
+
+
+            });	
+}
+
+function obtener_url()
+{
+ texto = actualiza.split(String.fromCharCode(59));
+ for(var s=0; s < texto.length; s++) 
+ switch(s)
+ {
+  case 0: url = texto[s];
+  break;
+  case 1: url2 = texto[s];
+  break;
+ }		
+ alert("url: "+url); 
+ alert("url2: "+url2); 
+}
+
+	
+    function elimina_espacio(info)
+	{
+			 for (var k = 0; k < info.length; k++) 
+			 {
+              var caracter = info.charAt(k);
+             if( caracter != String.fromCharCode(32)) 
+			 {
+              campo = info.substring(k,info.length);
+			  k = info.length;
+             } 
+            }
+	 return campo;
+	}
+
+function carga_informacion(db,result,objeto)
+{
+          var container = objeto;
+		  html+="<ul>";
+		  id_registro = 1;
+		  id_palabra = 1;
+		  for (var i = 0; i < result.feed.entries.length; i++) 
+		  {
+		    j = i + 1;
+            var entry = result.feed.entries[i];
+
+			valor = entry.content.split(String.fromCharCode(10));
+			if (valor.length == 17) ini = 4;
+			else ini = 3;
+			
+			
+			for (var j = ini; j< valor.length; j++) 
+			{
+			 valor[j] = elimina_espacio(valor[j]);			
+		 	 if (j == 7) palabra_clave =  valor[j].split(String.fromCharCode(59));
+		    }
+			
+			
+			if (valor.length == 17)
+			 var sql = "Insert into ubicacion_programa values ("+id_registro+",'"+valor[4]+"','"+valor[5]+"','"+valor[6]+"','"+valor[7]+"','"+valor[8]+"','"+valor[9]+"','"+valor[10]+"','"+valor[11]+"','"+valor[12]+"','"+valor[13]+"','"+valor[14]+"','"+valor[15]+"');";
+			else
+			 var sql = "Insert into informacion_programa values ("+id_registro+",'"+valor[3]+"','"+valor[4]+"','"+valor[5]+"','"+valor[6]+"','"+valor[8]+"','"+valor[9]+"');";
+			
+			if ((valor.length == 11) && (id_registro == 1)) inserta(db,"Delete from informacion_programa");			
+			if ((valor.length == 17) && (id_registro == 1)) inserta(db,"Delete from ubicacion_programa");			
+
+			inserta(db,sql);
+			
+			html+='<li>';
+			html+='<pre>'+sql+'</pre>';
+			if (valor.length == 11)
+			for (var j = 0; j< palabra_clave.length; j++) 
+			{
+			 palabra_clave[j] = elimina_espacio(palabra_clave[j]);
+			 var sql2 = "Insert into palabra_clave values ("+id_palabra+",'"+palabra_clave[j]+"',"+id_registro+");";
+			 
+			 if (id_palabra == 1) inserta(db,"Delete from palabra_clave");			
+
+			 inserta(db,sql2);
+			 
+			 id_palabra++;
+			 html+='<pre>'+sql2+'</pre>';
+			}
+			html+='</p>';
+			html+='</li>';
+//			alert(valor[4]);
+			id_registro++;
+          }
+		  html+="<ul>";
+		  container.innerHTML=html;
+
+}	
+	
+    function actualiza_informacion_ubicacion() 
+	{
+     var db;
+	 db = openDatabase("ejemplo3.db3", "1.0", "Ministerio de Justicia", 500000);
+     var feed = new google.feeds.Feed(url2);
+     feed.setNumEntries(1000000);
+     feed.load(function(result) {
+        if (!result.error) {
+//		  alert(result.feed.entries.length);		 
+			alert("Entra a actualiza_informacion_ubicacion");
+			carga_informacion(db,result,document.getElementById("feed2"));						
+        }
+      });
+    }
+
+    function actualiza_informacion_programa() 
+	{
+     var db;
+	 db = openDatabase("ejemplo3.db3", "1.0", "Ministerio de Justicia", 500000);
+     var feed = new google.feeds.Feed(url);
+     feed.setNumEntries(1000000);
+     feed.load(function(result) {
+        if (!result.error) {
+			alert("Entra a actualiza_informacion_programa");
+			carga_informacion(db,result,document.getElementById("feed"));						
+        }
+      });
+    }
+
+	
+function inserta(db,sql)
+{
+db.transaction( function(tx) {
+//alert("Este es: "+sql);
+			tx.executeSql(sql);
+
+            });	
+}	
+
+
+
+
+    </script>
+  </head>
+  <body>
+    <div> Version 1.0.4 </div>
+    <div id="feed"></div>
+    <div id="feed2"></div>
+  </body>
+</html>

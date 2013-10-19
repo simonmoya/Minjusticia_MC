@@ -1,0 +1,108 @@
+﻿<html class="no-js ui-mobile-rendering" lang="es">
+ <head>
+      <title>Infórmate</title>
+
+      <meta http-equiv="Content-Type" name="viewport" content="width=device-width; initial-scale=1; charset=UTF-8">
+	  <script src="js/jquery-1.9.1.min.js"></script>
+
+	<script>var array_youtube = new Array();</script>
+
+	  
+ <script type='text/javascript'> 
+//<![CDATA[ 
+  
+ function mostrarYoutube(search_input,id)
+ {
+  var nombre = 'result'+id;
+   if ((array_youtube[id] == 1) || (typeof array_youtube[id] == "undefined"))
+   {
+    array_youtube[id] = 0;
+    youtube(search_input,nombre);
+   } 
+ }
+  
+  
+  function youtube(search_input,componente) { 
+    var keyword= encodeURIComponent(search_input); 
+    var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&max-results=1&v=2&alt=jsonc';  
+    $.ajax({ 
+      type: "GET", 
+      url: yt_url, 
+      dataType:"jsonp", 
+      success: function(response){ 
+        if(response.data.items){
+          $.each(response.data.items, function(i,data){ 
+            var video_id=data.id; 
+            var video_title=data.title; 
+            var video_viewCount=data.viewCount; 
+            var video_frame="<iframe width=350 height=200 src='http://www.youtube.com/embed/"+video_id+"?rel=0' frameborder=0 allowfullscreen></iframe>"; 
+            final= "<div align=center>"+video_frame+"</div><br>"; 
+			var capa = document.getElementById(componente);
+			var video = document.createElement("div");
+			video.innerHTML = final;
+			capa.appendChild(video);
+          }); 
+        } else { 
+          $("#result").html("<div id='no'>No se encontraron videos disponibles</div>"); 
+        } 
+      } 
+    }); 
+  }; 
+ 
+//]]> 
+</script>
+
+      <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+      <script src="js/libs/require.js" data-main="js/mobile"></script>
+ 
+</head>
+<body>
+<div id="categories" data-role="page" data-title="Infórmate" style="background-image: url('images/fondo_2.jpg'); background-repeat:no-repeat; background-size:100% 100%; background-position: absolute">
+<div height=200px style="background-image: url('images/cabecera.png'); background-repeat:no-repeat; background-size:100% 100%; background-position: absolute">
+<br><br><br><br><br><br><br><br>
+</div>
+<div id="principal" data-role="collapsible-set" data-theme="c" data-content-theme="d">
+<script>
+
+ var db;
+ db = openDatabase("ejemplo3.db3", "1.0", "Ministerio de Justicia", 500000);
+ db.transaction(function(tx) 
+				{
+            	 tx.executeSql("SELECT convencion_parametro, valor_parametro FROM parametro where codigo_tparametro = 3", [],
+                 function(tx, result)
+				 {
+				  var j;
+                  for(var i=0; i < result.rows.length; i++) 
+				  {
+				   j = i + 1;
+				   var capa = document.getElementById('principal');
+				   var video = document.createElement("div");
+				   var final = " <div data-role='collapsible'> ";
+				   final = final + " <h3 onclick=mostrarYoutube('"+result.rows.item(i)['valor_parametro']+"','"+j+"')>"+result.rows.item(i)['convencion_parametro']+"</h3> ";
+				   final = final + " <div id='result"+j+"'></div> ";
+				   final = final + " </div> ";
+				   video.innerHTML = final;
+				   capa.appendChild(video);
+                  }
+                 });
+		        });
+
+
+</script>	
+		
+</div>	
+
+
+<p><a href="index.html" data-direction="reverse" data-role="button" data-theme="b">Regresar</a></p>
+ 
+</div>
+	
+</body>
+</html>
+
+<script>
+$(function () 
+{
+
+})
+</script>
