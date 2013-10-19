@@ -49,7 +49,11 @@
 </div>
 
  <br>
- <p><a href="index.html" data-direction="reverse" data-role="button" data-theme="b" onClick="sendEmail(); return false;">Enviar</a></p>
+ <script>
+var correo_prueba="edmi48@gmail.com";
+var texto="prueba";
+ document.write('<p><a data-role="button" data-theme="b" onClick="sendEmail(); return false;">Enviar</a></p>')
+ </script>
  <p><a href="index.html" data-direction="reverse" data-role="button" data-theme="b">Regresar</a></p>
  <br><br>
  
@@ -68,19 +72,9 @@
 					 //variables para enviar el correo
 					 var texto = document.getElementById("t_sugerencia").value;
 					 var asunto ="Sugerencia";
-					 texto=texto+"\n\nNombre: "+document.getElementById("t_nombre").value+"\nTeléfono: "+document.getElementById("t_telefono").value;
-					 cordova.require('cordova/plugin/emailcomposer').showEmailComposer(
-							function() { console.log( 'successfully called email composer' ); },
-							function() { console.log( 'failed to call email composer' ); },
-							asunto,
-							texto,
-							[correo_para],
-							[],
-							[],
-							false,
-							[]
-						);
-					window.location="index.html";
+					 texto=texto+"\n\n \r\n Nombre: "+document.getElementById("t_nombre").value+"\n   Teléfono: "+document.getElementById("t_telefono").value;
+					//window.open('mailto:' + correo_para + '?subject=Sugerencia&body='+texto);
+					window.location.href='mailto:' + correo_para + '?subject=Sugerencia&body='+texto;
 					}
 					else
 						alert ("Debe diligenciar un teléfono");
