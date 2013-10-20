@@ -1,8 +1,10 @@
 ﻿<html>
     <head>
         <title>ChildBrowser</title>
-        <script type="text/javascript" charset="utf-8" src="cordova-2.9.0.js"></script>
-        <script type="text/javascript" charset="utf-8" src="childbrowser.js"></script>
+	
+		<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	  <script type="text/javascript" src="js/childbrowser.js"></script>
+		
         <script>
             function onBodyLoad()
             {      
@@ -10,12 +12,12 @@
             }
             function onDeviceReady()
             {
-                    cb = window.plugins.childBrowser;
+                    window.plugins.childBrowser.showWebPage('http://www.google.com',{ showLocationBar: true });
             }
         </script>
     </head>
     <body onload="onBodyLoad();">
         <p>click the button to open Oodles Technologies WebSite in ChildBrowser</p>
-        <button onclick="cb.showWebPage('https://mobile.twitter.com/MinjusticiaCo')">click</button>
+        <button onclick="onDeviceReady();">click</button>
     </body>
 </html>

@@ -20,7 +20,7 @@ a{
 		align:center;		
 	}
 		input[type="search"]{
-			width: 100%;
+			width: 80%;
 		}
 		table{
 			border-radius: 3px;
@@ -28,7 +28,7 @@ a{
 			box-shadow: 0 0 10px #333;
 			margin: 10px;
 			align:center;
-			width:100%;
+			width:90%;
 		    font-size: 12px;
 		}
 			table a{
@@ -41,7 +41,6 @@ a{
 				font-weight: bold;
 				font-size: 12px;
 				text-align: center;
-				min-width: 10px;
 			}
 				table tbody tr td{
 					transition: all 400ms ease-in;
