@@ -136,7 +136,7 @@ function carga_informacion(db,result,objeto,fin)
                 window.history.back();
             }
         });			 
-			 },8000);
+			 },1000);
 			}
 
           }
@@ -178,8 +178,31 @@ function ejecuta_sentencia(db,sql)
 {
 db.transaction( function(tx) {
 //alert("Este es: "+sql);
-			tx.executeSql(sql,[1]);
-            });	}	
+			tx.executeSql(sql,[]);
+            });	
+
+        db.transaction( function(tx) {
+            tx.executeSql("SELECT count(*) as numero, codigo_dane_departamento, departamento, municipio, nombre_lugar, direccion_lugar, barrio_lugar, telefono_lugar, longitud "+
+									"FROM ubicacion_programa ", [],
+                function(tx, result){
+                    var output = [];
+                    for(var i=0; i < result.rows.length; i++) var contador = [result.rows.item(i)['numero']];
+					alert("Este es: "+contador);
+					if (contador == 0)
+					{
+        db.transaction( function(tx) {
+//					 tx.executeSql("insert into tipo_informacion values(1,'Riñas, custodia de niños, niñas y adolescentes; conciliación en derecho, separación de bienes y de cuerpos, suspensión de la vida en común, alimentos, unión marital de hecho');")
+
+			
+        });
+					
+					}
+                });
+        });
+
+
+
+}	
     </script>
 		
     </head>
