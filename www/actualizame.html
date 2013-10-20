@@ -104,10 +104,10 @@ function carga_informacion(db,result,objeto,fin)
 			else
 			 var sql = "Insert into informacion_programa values ("+id_registro+",'"+valor[3]+"','"+valor[4]+"','"+valor[5]+"','"+valor[6]+"','"+valor[8]+"','"+valor[9]+"');";
 			
-			if ((valor.length == 11) && (id_registro == 1)) inserta(db,"Delete from informacion_programa");			
-			if ((valor.length == 17) && (id_registro == 1)) inserta(db,"Delete from ubicacion_programa");			
+			if ((valor.length == 11) && (id_registro == 1)) ejecuta_sentencia(db,"Delete from informacion_programa");			
+			if ((valor.length == 17) && (id_registro == 1)) ejecuta_sentencia(db,"Delete from ubicacion_programa");			
 
-			inserta(db,sql);
+			ejecuta_sentencia(db,sql);
 			
 			html+='<li>';
 			html+='<pre>'+sql+'</pre>';
@@ -117,9 +117,9 @@ function carga_informacion(db,result,objeto,fin)
 			 palabra_clave[j] = elimina_espacio(palabra_clave[j]);
 			 var sql2 = "Insert into palabra_clave values ("+id_palabra+",'"+palabra_clave[j]+"',"+id_registro+");";
 			 
-			 if (id_palabra == 1) inserta(db,"Delete from palabra_clave");			
+			 if (id_palabra == 1) ejecuta_sentencia(db,"Delete from palabra_clave");			
 
-			 inserta(db,sql2);
+			 ejecuta_sentencia(db,sql2);
 			 
 			 id_palabra++;
 			 html+='<pre>'+sql2+'</pre>';
@@ -136,7 +136,7 @@ function carga_informacion(db,result,objeto,fin)
                 window.history.back();
             }
         });			 
-			 },4000);
+			 },8000);
 			}
 
           }
@@ -174,14 +174,12 @@ function carga_informacion(db,result,objeto,fin)
     }
 
 	
-function inserta(db,sql)
+function ejecuta_sentencia(db,sql)
 {
 db.transaction( function(tx) {
 //alert("Este es: "+sql);
-			tx.executeSql(sql);
-
-            });	
-}	
+			tx.executeSql(sql,[1]);
+            });	}	
     </script>
 		
     </head>
@@ -189,7 +187,7 @@ db.transaction( function(tx) {
     <body>
 
   <body>
-    <div> Si transcurridos 10 segundos no aparece el mensaje Actualización Exitosa, por favor pulse el botón Actualízame </div>
+    <div> El proceso de actualización puede tardar entre 10 segundos y 20 segundos dependiendo de las características de su dispositivo, si transcurrido el tiempo máximo no aparece el mensaje Actualización Exitosa, por favor pulse el botón Actualízame </div>
     <input type="button" data-theme="b" value="Actualizame" onclick="location.reload();">
     <div id="feed" align="center"></div>
     <div id="feed2" align="center"></div>
