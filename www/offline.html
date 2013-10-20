@@ -18,8 +18,8 @@
   var db;
   var html="";
   var container = document.getElementById("tabla")
-  html += "<table border=1 id='tblTabla' align=center><thead><tr><th>Programa</th><th>Ubicación</th><th>Dirección</th>";
-  html += "<th width=50>Teléfono</th><th width=50>E-mail</th></tr></thead><tbody>";
+  html += "<table border=1 id='tblTabla' align=center><thead><tr><th>Programa</th><th width=200>Ubicación</th><th>Dirección</th>";
+  html += "<th>Teléfono</th><th width=40>E-mail</th></tr></thead><tbody>";
   db = openDatabase("ejemplo3.db3", "1.0", "Ministerio de Justicia", 500000);
 
         db.transaction( function(tx) {
@@ -27,9 +27,9 @@
                 function(tx, result){
                     for(var i=0; i < result.rows.length; i++) 
 					{
-						html += "<tr><td>"+result.rows.item(i)['tipo_programa']+"</td><td>"+result.rows.item(i)['departamento']+" <br> ";
+						html += "<tr><td>"+result.rows.item(i)['tipo_programa']+"</td><td width=200>"+result.rows.item(i)['departamento']+" <br> ";
 						html += result.rows.item(i)['codigo_dane_municipio']+"</td><td>"+result.rows.item(i)['direccion_lugar']+' <br> '+result.rows.item(i)['barrio_lugar'];
-						html += "</td><td width=50>"+result.rows.item(i)['telefono_lugar']+"</td><td width=50>"+result.rows.item(i)['email']+"</td></tr>";
+						html += "</td><td>"+result.rows.item(i)['telefono_lugar']+"</td><td width=40>"+result.rows.item(i)['email']+"</td></tr>";
                     }
 		html += "</tbody><tfoot><tr><td colspan='7'>Resultados de la Búsqueda</td></tr></tfoot></table>";
   		container.innerHTML=html;
@@ -53,7 +53,7 @@
 			</div>
 			<div id="divTabla" align=center>			
 				<br>
-				<table border=0 align=center><tr><td><input type="search" id="busqueda" data-inline="true"/></td><td>
+				<table border=0 align=center width=100%><tr><td><input type="search" id="busqueda" data-inline="true"/></td><td>
 				<input type="submit" value="Buscar" data-inline="true" OnClick="javascript:busca_tabla($(tblTabla),document.getElementById('busqueda').value);"/>
 				</td></tr></table>
 
