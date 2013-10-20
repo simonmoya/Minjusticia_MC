@@ -67,7 +67,7 @@
 					if (document.getElementById("t_telefono").value!=""){
 					 //variables para enviar el correo
 					 var texto = document.getElementById("t_sugerencia").value;
-					 var asunto ="Sugerencia";
+					 var asunto ="Sugerencia EmailComposer";
 					 texto=texto+"\n\nNombre: "+document.getElementById("t_nombre").value+"\nTeléfono: "+document.getElementById("t_telefono").value;
 					 cordova.require('cordova/plugin/emailcomposer').showEmailComposer(
 							function() { console.log( 'successfully called email composer' ); },
