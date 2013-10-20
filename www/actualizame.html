@@ -98,16 +98,15 @@ function carga_informacion(db,result,objeto,fin)
 		 	 if (j == 7) palabra_clave =  valor[j].split(String.fromCharCode(59));
 		    }
 			
+			if ((valor.length == 11) && (id_registro == 1)) ejecuta_sentencia(db,"Delete from informacion_programa",0,0,0);			
+			if ((valor.length == 17) && (id_registro == 1)) ejecuta_sentencia(db,"Delete from ubicacion_programa",0,0,0);			
 			
 			if (valor.length == 17)
 			 var sql = "Insert into ubicacion_programa values ("+id_registro+",'"+valor[4]+"','"+valor[5]+"','"+valor[6]+"','"+valor[7]+"','"+valor[8]+"','"+valor[9]+"','"+valor[10]+"','"+valor[11]+"','"+valor[12]+"','"+valor[13]+"','"+valor[14]+"','"+valor[15]+"');";
 			else
 			 var sql = "Insert into informacion_programa values ("+id_registro+",'"+valor[3]+"','"+valor[4]+"','"+valor[5]+"','"+valor[6]+"','"+valor[8]+"','"+valor[9]+"');";
 			
-			if ((valor.length == 11) && (id_registro == 1)) ejecuta_sentencia(db,"Delete from informacion_programa");			
-			if ((valor.length == 17) && (id_registro == 1)) ejecuta_sentencia(db,"Delete from ubicacion_programa");			
-
-			ejecuta_sentencia(db,sql);
+			ejecuta_sentencia(db,sql,id_registro,result.feed.entries.length,fin);
 			
 			html+='<li>';
 			html+='<pre>'+sql+'</pre>';
@@ -117,9 +116,9 @@ function carga_informacion(db,result,objeto,fin)
 			 palabra_clave[j] = elimina_espacio(palabra_clave[j]);
 			 var sql2 = "Insert into palabra_clave values ("+id_palabra+",'"+palabra_clave[j]+"',"+id_registro+");";
 			 
-			 if (id_palabra == 1) ejecuta_sentencia(db,"Delete from palabra_clave");			
+			 if (id_palabra == 1) ejecuta_sentencia(db,"Delete from palabra_clave",0,0,0);			
 
-			 ejecuta_sentencia(db,sql2);
+			 ejecuta_sentencia(db,sql2,0,0,0);
 			 
 			 id_palabra++;
 			 html+='<pre>'+sql2+'</pre>';
@@ -128,16 +127,6 @@ function carga_informacion(db,result,objeto,fin)
 			html+='</li>';
 //			alert(valor[4]);
 			id_registro++;
-			if ((fin == 1) && (id_registro == result.feed.entries.length))
-			{
-			 setTimeout(function(){
-			 $.Zebra_Dialog('<strong>Actualización Exitosa', {            
-            'onClose':  function(caption) {
-                window.history.back();
-            }
-        });			 
-			 },1000);
-			}
 
           }
 		  html+="<ul>";
@@ -174,33 +163,24 @@ function carga_informacion(db,result,objeto,fin)
     }
 
 	
-function ejecuta_sentencia(db,sql)
+function ejecuta_sentencia(db,sql,registro,total_registro,fin)
 {
-db.transaction( function(tx) {
-//alert("Este es: "+sql);
-			tx.executeSql(sql,[]);
-            });	
-
         db.transaction( function(tx) {
-            tx.executeSql("SELECT count(*) as numero, codigo_dane_departamento, departamento, municipio, nombre_lugar, direccion_lugar, barrio_lugar, telefono_lugar, longitud "+
-									"FROM ubicacion_programa ", [],
+            tx.executeSql(sql, [],
                 function(tx, result){
-                    var output = [];
-                    for(var i=0; i < result.rows.length; i++) var contador = [result.rows.item(i)['numero']];
-					alert("Este es: "+contador);
-					if (contador == 0)
-					{
-        db.transaction( function(tx) {
-//					 tx.executeSql("insert into tipo_informacion values(1,'Riñas, custodia de niños, niñas y adolescentes; conciliación en derecho, separación de bienes y de cuerpos, suspensión de la vida en común, alimentos, unión marital de hecho');")
-
-			
-        });
-					
-					}
+				  if ((fin == 1) && (registro == total_registro))
+				  {
+				   setTimeout(function(){
+				   $.Zebra_Dialog('<strong>Actualización Exitosa', {            
+				    'onClose':  function(caption) 
+				    {
+				     window.history.back();
+				    }
+				    });			 
+				   },5000);
+				  }
                 });
         });
-
-
 
 }	
     </script>
@@ -210,7 +190,7 @@ db.transaction( function(tx) {
     <body>
 
   <body>
-    <div> El proceso de actualización puede tardar entre 10 segundos y 20 segundos dependiendo de las características de su dispositivo, si transcurrido el tiempo máximo no aparece el mensaje Actualización Exitosa, por favor pulse el botón Actualízame </div>
+    <div> El proceso de actualización puede tardar entre 20 segundos y 30 segundos dependiendo de las características de su dispositivo, si transcurrido el tiempo máximo no aparece el mensaje Actualización Exitosa, por favor pulse el botón Actualízame </div>
     <input type="button" data-theme="b" value="Actualizame" onclick="location.reload();">
     <div id="feed" align="center"></div>
     <div id="feed2" align="center"></div>
