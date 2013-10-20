@@ -20,7 +20,7 @@ a{
 		align:center;		
 	}
 		input[type="search"]{
-			width: 80%;
+			width: 100%;
 		}
 		table{
 			border-radius: 3px;
@@ -28,7 +28,7 @@ a{
 			box-shadow: 0 0 10px #333;
 			margin: 10px;
 			align:center;
-			width:320px;
+			width:100%;
 		    font-size: 12px;
 		}
 			table a{
