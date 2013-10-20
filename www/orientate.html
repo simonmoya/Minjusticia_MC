@@ -2,7 +2,7 @@
 <head>
       <title>TODO BIEN - SUGIEREME</title>
 
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
   <script type="text/javascript" src="js/jquery.autocomplete.min.js"></script>
  
@@ -33,7 +33,9 @@
 			             lookup: data_busqueda,
 						 onSelect: function (suggestion) 
 						 {
-					      var thehtml = '<strong>Programa:</strong> <a href="mapa.html?Entidad='+suggestion.data+' target="_self">' + suggestion.data + ' (Ver mapa)</a> <br> <strong>Entidad Encargada</strong> ' + suggestion.data2 + ' <br> <strong>Descripción Conflicto:</strong> ' + suggestion.data3;
+						  if (suggestion.data == 'Casa de Justicia') icono = 'images/cj.png'
+						  else icono = 'images/ccc.png'
+					      var thehtml = '<a href="mapa.html?Entidad='+suggestion.data+' target="_self"><img src="'+icono+'" height="42" width="42">&nbsp;&nbsp;' + suggestion.data + ' (Ver mapa)</a> <br> <strong>Entidad Encargada</strong> ' + suggestion.data2 + ' <br> <strong>Descripción Conflicto:</strong> ' + suggestion.data3;
 					      $('#resultado').html(thehtml);
 					     }
 						});	
@@ -68,9 +70,6 @@
 <div id="principal" data-role="collapsible-set" data-theme="c" data-content-theme="d">
 
 <center><div id="container" style="width: auto; height: auto; margin: auto auto"></div></center>
-
-	<br><br>
-	
   <div id="w">
     <div id="content">      
       <div id="searchfield">
