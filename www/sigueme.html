@@ -13,12 +13,12 @@
             function onDeviceReady()
             {
 					alert("antes del plugin");
-                    window.plugins.childBrowser.showWebPage('http://www.google.com',{ showLocationBar: true });
+                    window.plugins.childBrowser.showWebPage('https://mobile.twitter.com/MinjusticiaCo',{ showLocationBar: true });
 					alert("despues del plugin");
             }
         </script>
     </head>
-    <body onload="onBodyLoad();">
+    <body>
         <p>click the button to open Oodles Technologies WebSite in ChildBrowser</p>
         <button onclick="onDeviceReady();">click</button>
     </body>

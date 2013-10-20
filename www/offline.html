@@ -24,9 +24,12 @@
                     for(var i=0; i < result.rows.length; i++) 
 					{
 					 var propiedad="";
-					 if ((result.rows.item(i)['direccion_lugar'].length > 20) && (result.rows.item(i)['direccion_lugar'].length < 25)) propiedad = 'NOWRAP'
-					 html += "<tr><td>"+result.rows.item(i)['tipo_programa']+"</td><td "+propiedad+"><strong>"+result.rows.item(i)['departamento']+" - ";
-					 html += result.rows.item(i)['codigo_dane_municipio']+"</strong><br>"+result.rows.item(i)['direccion_lugar']+' <br> '+result.rows.item(i)['barrio_lugar'];
+					 var ubicacion="";
+					 if ((result.rows.item(i)['direccion_lugar'].length > 20) && (result.rows.item(i)['direccion_lugar'].length < 25)) propiedad = 'NOWRAP';
+					 if (result.rows.item(i)['departamento'] == result.rows.item(i)['codigo_dane_municipio']) ubicacion = result.rows.item(i)['codigo_dane_municipio'];
+					 else ubicacion = result.rows.item(i)['departamento']+" - "+result.rows.item(i)['codigo_dane_municipio']
+					 html += "<tr><td>"+result.rows.item(i)['tipo_programa']+"</td><td "+propiedad+"><strong>";
+					 html += ubicacion+"</strong><br>"+result.rows.item(i)['direccion_lugar']+' <br> '+result.rows.item(i)['barrio_lugar'];
 					 html += "</td><td>"+result.rows.item(i)['telefono_lugar']+"</td><td>"+result.rows.item(i)['email']+"</td></tr>";
                     }
 		html += "</tbody><tfoot width='100%'><tr><td colspan='4'>Resultados de la Búsqueda</td></tr></tfoot></table>";
