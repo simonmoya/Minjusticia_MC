@@ -117,10 +117,11 @@ function abrir_twitter()
 {
  alert (device.platform);
  if (device.platform  == 'iOS') 
- $.Zebra_Dialog('<strong>Funcionalidad No Disponible para iOS</strong>', {
+ /*$.Zebra_Dialog('<strong>Funcionalidad No Disponible para iOS</strong>', {
     'type':     'warning',
     'title':    'Advertencia'
-});
+});*/
+window.location = ('sigueme_ios.html'); 
  else window.location = ('sigueme.html'); 
 } 
         function checkConnection() 
