@@ -6,7 +6,7 @@
 
         <script type="text/javascript" src="js/base_datos.js"></script>
         <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-		<script type="text/javascript" src="js/zebra_dialog.js"></script>
+        <script type="text/javascript" src="js/zebra_dialog.js"></script>
 		<script type="text/javascript" src="js/carrusel.js"></script>
 		<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
 
@@ -14,8 +14,9 @@
         <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
 		<script src="js/jquery.mobile-1.3.1.js"></script>
 		
-		<link rel="stylesheet" href="css/zebra_dialog.css" type="text/css">
+		
 		<link rel="stylesheet"  href="css/jquery.mobile-1.3.1.min.css">
+        <link rel="stylesheet" href="css/zebra_dialog.css" type="text/css">
         <link rel="stylesheet" href="css/style_menu.css" type="text/css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="css/carrusel.css">
 		
@@ -27,17 +28,7 @@
         </style>
 
 	<script type="text/javascript" charset="utf-8">
-	function twitter()
-{
-new $.Zebra_Dialog('', {
-    source: {'iframe': {
-        'src':  'http://www.evoltiservice.com/movil/tweets.html',
-        'height': 250
-    }},
-    width: 320,
-    title:  'Tweets Ministerio de Justicia'
-});
-}
+	
 
 	 function updateBackground() 
 	  {
@@ -116,10 +107,22 @@ ventana_ancho2= (ventana_ancho2-300)/2;
 	function abrir_opcion(pagina) 
 { 
 if (checkConnection() == 1) window.location = (pagina); 
-else alert('No es posible abrir esta opción sin conexión a Internet');
+else  $.Zebra_Dialog('<strong>No es posible ejecutar esta funcionalidad sin Conexión a Internet</strong>', {
+    'type':     'error',
+    'title':    'Sin Conexión a Internet'
+});
 } 
 
-
+function abrir_twitter()
+{
+ alert (device.platform);
+ if (device.platform  == 'iPhone') 
+ $.Zebra_Dialog('<strong>Funcionalidad No Disponible para IOs</strong>', {
+    'type':     'warning',
+    'title':    'Advertencia'
+});
+ else window.location = ('sigueme.html'); 
+} 
         function checkConnection() 
 		{
 		 if(navigator.connection.type == Connection.NONE){ 
@@ -169,7 +172,7 @@ else alert('No es posible abrir esta opción sin conexión a Internet');
                 document.write('</div>')
 				
                 document.write('<div class="item fav">')
-                document.write('<a href="#" onclick=\'twitter();return false\'><img src="images/opcion3.png">')
+                document.write('<a href="#" onclick=\'abrir_twitter();return false\'><img src="images/opcion3.png">')
                 document.write('</div>')
 				
                 document.write('<div class="item home">')
