@@ -68,6 +68,7 @@
                     var storedAccessData, rawData = localStorage.getItem(twitterKey);
                     // here we are going to check whether the data about user is already with us.
                     if(localStorage.getItem(twitterKey) !== null){
+					alert("2");
                     // when App already knows data
                     storedAccessData = JSON.parse(rawData); //JSON parsing
                     //options.accessTokenKey = storedAccessData.accessTokenKey; // data will be saved when user first time signin
@@ -83,10 +84,12 @@
                         );
                     }
                     else {
+					alert("3");
                         // we have no data for save user
                         oauth = OAuth(options);
                         oauth.get('https://api.twitter.com/oauth/request_token',
                         function(data) {
+						alert(data.text);
                         requestParams = data.text;
                         cb.showWebPage('https://api.twitter.com/oauth/authorize?'+data.text); // This opens the Twitter authorization / sign in page
                         cb.onLocationChange = function(loc){ Twitter.success(loc); }; // Here will will track the change in URL of ChildBrowser
