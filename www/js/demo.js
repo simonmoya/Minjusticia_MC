@@ -28,10 +28,12 @@ TwitterDemo = {
     },
     
     isAvailable:function(){
+		alert("entra isAvailable");
         TwitterDemo.log("wait..");
         window.plugins.twitter.isTwitterAvailable(function(r){
             TwitterDemo.log("twitter available? " + r);
         });        
+		alert("sale isAvailable"+r);
     },
     
     isSetup:function(){
