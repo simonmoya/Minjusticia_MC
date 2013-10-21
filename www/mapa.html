@@ -47,12 +47,12 @@
         function InicializaDatos() {
      db = openDatabase("ejemplo3.db3", "1.0", "Ministerio de Justicia", 500000);
     sentencia = "Select nombre_lugar, direccion_lugar, telefono_lugar, email, latitud, longitud From ubicacion_programa  where tipo_programa='"+nom_programa+"'";
- alert("Sentencia: "+sentencia);
+// alert("Sentencia: "+sentencia);
 
                 db.transaction( function(tx) {
                         tx.executeSql(sentencia, [],
                                 function(tx, result){
- alert(result.rows.length);
+// alert(result.rows.length);
                                         for(var i=0; i < result.rows.length; i++)  
 					{
 					
@@ -183,11 +183,11 @@ function Dist(lat1, lon1, lat2, lon2)
 function calcularDistancia() {
 		if (Latdes_calc<-91 || Latdes_calc>91)
 		{
-			alert("latitud errada"+Nombre_destino);
+//			alert("latitud errada"+Nombre_destino);
 			//return false;
 		}
 		if (Lngdes_calc<-181 || Lngdes_calc>181){
-			alert("longitud errada"+Nombre_destino);
+//			alert("longitud errada"+Nombre_destino);
 			//return false;
 		}
 		
